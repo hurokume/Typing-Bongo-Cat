@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Typing Bongo Cat (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Typing Bongo Cat (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

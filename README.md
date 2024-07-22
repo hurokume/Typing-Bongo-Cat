@@ -11,6 +11,9 @@ Typing Bongo Cat is a widget that shows a bongo cat and she types with you. It s
 ## Installation
 Binaries are regularly built and are available at [Release page](https://github.com/hurokume/Typing-Bongo-Cat/releases/latest).
 - If the security warning appears as shown below, click "More info" and then "Run anyway". After finishing the download, unzip the file and run `Typing Bongo Cat.exe`.
+
+![alt text](img/explorer.png)
+
 - If you launch the application for the first time, you may see a security warning and you may need to wait for a while (10 sec. - 1 min.) until the application is launched.
 
 ![alt text](img/sec_warn1.png)

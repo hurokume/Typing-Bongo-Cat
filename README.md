@@ -6,6 +6,8 @@
 
 Typing Bongo Cat is a widget that shows a bongo cat and she types with you. It supports your mental health and makes you feel better.
 
+![Bongo cat](<img/bongo_cat.gif>)
+
 ## Installation
 Binaries are regularly built and are available at [Release page](https://github.com/hurokume/Typing-Bongo-Cat/releases/latest).
 - If the security warning appears as shown below, click "More info" and then "Run anyway". After finishing the download, unzip the file and run `Typing Bongo Cat.exe`.

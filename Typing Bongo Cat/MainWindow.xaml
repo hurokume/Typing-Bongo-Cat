@@ -8,7 +8,38 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <Grid x:Name="MainGrid"
+            Background="White"
+            KeyDown="MainGrid_KeyDown"
+            RightTapped="MainGrid_RightTapped"
+            Loaded="MainGrid_Loaded">
+        <Grid x:Name="AppTitleBar"
+                Background="Transparent"
+                Height="32"
+                VerticalAlignment="Top">
+            <TextBlock Text="Bongo Cat"
+                    VerticalAlignment="Center"
+                    Margin="12,0,0,0"/>
+        </Grid>
+
+        <Image x:Name="MainImage1"
+                Source="ms-appx:///Assets/bongo_cat_middle.png"
+                Stretch="Uniform"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Visibility="Visible"/>
+        <Image x:Name="MainImage2"
+                Source="ms-appx:///Assets/bongo_cat_left.png"
+                Stretch="Uniform"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Visibility="Collapsed"/>
+        <Image x:Name="MainImage3"
+                Source="ms-appx:///Assets/bongo_cat_right.png"
+                Stretch="Uniform"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Visibility="Collapsed"/>
+
+    </Grid>
 </Window>

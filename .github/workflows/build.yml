@@ -1,0 +1,109 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Set up NuGet
+      uses: NuGet/setup-nuget@v1
+
+    - name: Restore NuGet packages
+      run: nuget restore "Typing Bongo Cat.sln"
+
+    - name: Build solution x64
+      run: msbuild "Typing Bongo Cat.sln" /p:Configuration=Release /p:Platform=x64
+
+    - name: Build solution x86
+      run: msbuild "Typing Bongo Cat.sln" /p:Configuration=Release /p:Platform=x86
+
+    - name: List all files
+      run: Get-ChildItem -Recurse -Force
+      shell: pwsh
+
+    - name: Create ZIP file for x64
+      run: Compress-Archive -Path "Typing Bongo Cat/bin/x64/Release/net8.0-windows10.0.19041.0/*" -DestinationPath "Bongo_Cat_x64.zip"
+      shell: pwsh
+
+    - name: Create ZIP file for x86
+      run: Compress-Archive -Path "Typing Bongo Cat/bin/x86/Release/net8.0-windows10.0.19041.0/*" -DestinationPath "Bongo_Cat_x86.zip"
+      shell: pwsh
+
+    - name: Upload ZIP artifact x64
+      uses: actions/upload-artifact@v3
+      with:
+        name: Bongo_Cat_x64
+        path: Bongo_Cat_x64.zip
+
+    - name: Upload ZIP artifact x86
+      uses: actions/upload-artifact@v3
+      with:
+        name: Bongo_Cat_x86
+        path: Bongo_Cat_x86.zip
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Download ZIP artifact x64
+      uses: actions/download-artifact@v3
+      with:
+        name: Bongo_Cat_x64
+        path: .
+
+    - name: Download ZIP artifact x86
+      uses: actions/download-artifact@v3
+      with:
+        name: Bongo_Cat_x86
+        path: .
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset x64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Bongo_Cat_x64.zip
+        asset_name: Bongo_Cat_x64.zip
+        asset_content_type: application/zip
+
+    - name: Upload Release Asset x86
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Bongo_Cat_x86.zip
+        asset_name: Bongo_Cat_x86.zip
+        asset_content_type: application/zip
